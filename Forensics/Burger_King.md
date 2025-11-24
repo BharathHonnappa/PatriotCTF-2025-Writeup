@@ -114,22 +114,4 @@ Opening the decrypted SVG file reveals the flag displayed as text in the image:
 - **bkcrack**: Modern implementation of the known-plaintext attack  
 - Alternatives: `pkcrack` (older), `fcrackzip` (brute force)
 
-## Lessons Learned
-
-1. **ZipCrypto is weak**: Never use legacy ZIP encryption for sensitive data.  
-2. **Use modern encryption**: AES-256 encryption is the standard for ZIP files.  
-3. **Known-plaintext attacks**: Even partial file recovery can compromise the entire archive.  
-4. **File format knowledge**: Understanding SVG structure helped identify that we had the file header.
-
-## Challenge Name Reference
-
-The challenge name "Burger King Crackers" is a clever wordplay:
-- **Crackers**: Security professionals who break encryption  
-- **Burger King**: Possibly referencing "having it your way" with the decryption  
-- The team specializes in "cracking" encrypted systems
-
-## Summary
-
-This challenge demonstrated a real-world cryptographic vulnerability in legacy ZIP encryption. By leveraging the known beginning of an SVG file, we performed a known-plaintext attack to recover the encryption keys and decrypt the archive without ever finding the original password.
-
 **Final Flag:** `CACI{Y0U_F0UND_M3!}`
