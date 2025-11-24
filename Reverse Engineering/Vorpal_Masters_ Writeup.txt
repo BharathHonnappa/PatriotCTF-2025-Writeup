@@ -1,0 +1,102 @@
+
+Vorpal Masters Writeup
+Challenge Overview
+Challenge: Vorpal Masters
+Category: Reverse Engineering
+Points: 300
+Description: A video game with license key protection that needs to be cracked.
+
+Initial Analysis
+The challenge provides a binary file called license which is a 64-bit ELF executable. When run, it prompts for a license key in the format xxxx-xxxx-xxxx and validates it.
+
+Reverse Engineering Process
+Step 1: Understanding the Binary Structure
+First, I examined the binary using various tools:
+
+bash
+file license
+strings license
+objdump -d license
+The binary is not stripped, making reverse engineering easier. Key strings found:
+
+"Welcome to {insert game here}"
+
+"Please enter the license key from the 3rd page of the booklet"
+
+"Sorry, that is not a valid license key, please try again"
+
+"Lisence key registered, you may play the game now!"
+
+Format string: "%4s-%d-%10s"
+
+Step 2: Analyzing the Main Function
+Using objdump -d license, I disassembled the main function to understand the validation logic:
+
+The validation occurs in three parts:
+
+Part 1: First 4 Characters
+The program checks individual bytes at memory locations -0x9(%rbp) to -0x6(%rbp):
+
+Position 1: Must be 0x43 ('C')
+
+Position 2: Must be 0x41 ('A')
+
+Position 3: Must be 0x43 ('C')
+
+Position 4: Must be 0x49 ('I')
+
+So the first part must be: "CACI"
+
+Part 2: Numeric Validation
+The second part undergoes complex arithmetic validation:
+
+Must be between -5000 and 10000
+
+Must satisfy: ((num + 22) % 1738) == ((num * 2) % 2000 * 6 + 9)
+
+I wrote a C program to brute-force the solution:
+
+c
+#include <stdio.h>
+
+int main() {
+    for (int num = -5000; num <= 10000; num++) {
+        int temp1 = (num + 0x16);
+        long ltemp1 = temp1;
+        ltemp1 = ltemp1 * 0x96d4b1f;
+        ltemp1 = ltemp1 >> 0x20;
+        int itemp1 = ltemp1;
+        itemp1 = itemp1 >> 0x6;
+        int result1 = temp1 - itemp1 * 0x6ca;
+        
+        int temp2 = num * 2;
+        long ltemp2 = temp2;
+        ltemp2 = ltemp2 * 0x10624dd3;
+        ltemp2 = ltemp2 >> 0x20;
+        int itemp2 = ltemp2;
+        itemp2 = itemp2 >> 0x7;
+        int result2 = temp2 - itemp2 * 0x7d0;
+        result2 = result2 * 6 + 9;
+        
+        if (result1 == result2) {
+            printf("Valid number: %d\n", num);
+        }
+    }
+    return 0;
+}
+This revealed the valid number: 2025
+
+Part 3: String Comparison
+The third part is compared using strcmp with a hardcoded string. Examining the .rodata section revealed the comparison string:
+
+bash
+objdump -s -j .rodata license
+The third part must be: "PatriotCTF" (exactly 10 characters)
+
+Solution
+Putting all three parts together, the valid license key is:
+CACI-2025-PatriotCTF
+
+According to the challenge description, the flag format is CACI{Key}, so the final flag is:
+
+CACI{CACI-2025-PatriotCTF}

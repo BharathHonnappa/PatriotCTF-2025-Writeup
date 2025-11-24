@@ -1,0 +1,147 @@
+# Matrix Reconstruction - CTF Writeup
+
+## Challenge Overview
+
+This cryptography challenge involves recovering a matrix-based PRNG (Pseudorandom Number Generator) and using it to decrypt a ciphertext. The system uses a linear recurrence relation over GF(2) (binary field).
+
+**Given:**
+- Ciphertext (35 bytes)
+- 40 leaked keystream states
+- PRNG model: `S[n+1] = A*S[n] XOR B` over GF(2)
+
+**Goal:** Recover matrix A and vector B, then decrypt the ciphertext.
+
+## Understanding the Cryptosystem
+
+### The PRNG Model
+
+The keystream generator uses a linear feedback system:
+```
+S[n+1] = A × S[n] ⊕ B
+```
+
+Where:
+- `S[n]` is a 32-bit state
+- `A` is a 32×32 binary matrix
+- `B` is a 32-bit binary vector
+- Operations are in GF(2) (XOR arithmetic)
+
+### Encryption Scheme
+
+The plaintext is encrypted using XOR with bytes extracted from the PRNG states:
+```
+Ciphertext = Plaintext ⊕ Keystream
+```
+
+## Solution Approach
+
+### Step 1: Matrix Reconstruction
+
+With 40 consecutive states, we can reconstruct matrix A and vector B by solving a system of linear equations over GF(2).
+
+**Key Insight:** Each bit position in the output can be treated as an independent linear equation.
+
+For each output bit position `i` (0-31):
+```
+S[n+1][i] = (A[i][0] × S[n][0]) ⊕ (A[i][1] × S[n][1]) ⊕ ... ⊕ (A[i][31] × S[n][31]) ⊕ B[i]
+```
+
+This gives us 32 unknowns (the i-th row of A plus B[i]) per equation. With 40 states, we have 39 transitions, providing 39 equations per bit position - more than enough to solve for the 33 unknowns.
+
+### Step 2: Gaussian Elimination in GF(2)
+
+The solution implements Gaussian elimination for binary fields:
+
+```python
+def solve_for_row(equations, targets):
+    # Augmented matrix [A | b]
+    aug = [eq + [target] for eq, target in zip(equations, targets)]
+    
+    # Forward elimination
+    for col in range(n):
+        # Find pivot (any row with 1 in current column)
+        # Swap to diagonal position
+        # Eliminate below using XOR
+    
+    # Back substitution
+    # Extract solution vector
+```
+
+### Step 3: State Extension
+
+Once A and B are recovered, we can generate additional states forward:
+
+```python
+for _ in range(1000):
+    current_state = (A × current_state) ⊕ B
+```
+
+This extends our keystream beyond the 40 leaked states.
+
+### Step 4: Keystream Extraction
+
+Each 32-bit state can provide 4 bytes of keystream material:
+```python
+bytes_from_state = [
+    (state >> 0) & 0xFF,
+    (state >> 8) & 0xFF,
+    (state >> 16) & 0xFF,
+    (state >> 24) & 0xFF
+]
+```
+
+### Step 5: Pattern Matching
+
+Since CTF flags typically start with `pctf{`, we can:
+
+1. Calculate required keystream bytes:
+   ```
+   K[i] = Ciphertext[i] ⊕ 'pctf{'[i]
+   ```
+
+2. Search through all state bytes to find matching patterns
+
+3. Try different byte extraction sequences until we find valid plaintext
+
+## The Solution
+
+Running the script reveals:
+
+```
+Matrix A reconstructed!
+Vector B: 0 (0x00000000)
+```
+
+Note that B = 0, simplifying the recurrence to just `S[n+1] = A × S[n]`.
+
+The verification shows perfect reconstruction:
+```
+State 0->1: ✓
+State 1->2: ✓
+State 2->3: ✓
+...
+```
+
+After searching through byte positions and patterns:
+
+```
+🚨 FLAG FOUND: b'pctf{mAtr1x_r3construct?on_!s_fu4n}'
+```
+
+## Key Takeaways
+
+1. **Linear Recurrences are Vulnerable**: When consecutive states leak, linear recurrence relations over GF(2) can be completely recovered using linear algebra.
+
+2. **GF(2) Arithmetic**: Binary field operations (XOR-based) make the system linear and solvable with Gaussian elimination.
+
+3. **Sufficient Data**: With 40 states and only 33 unknowns per row, we had redundant equations, making the system overdetermined and more robust.
+
+4. **State Extension**: Once the PRNG is recovered, we can generate unlimited keystream, completely breaking the cipher.
+
+## Flag
+
+```
+pctf{mAtr1x_r3construct?on_!s_fu4n}
+```
+
+The flag itself is a playful reference to "Matrix Reconstruction is fun" - which it certainly was!
