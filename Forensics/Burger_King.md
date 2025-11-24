@@ -95,7 +95,7 @@ Opening the decrypted SVG file reveals the flag displayed as text in the image:
 
 ![Hole image](./Hole.svg)
 
-**Flag:** `CACI{YOU_FOUND_M3!}`
+**Flag:** `CACI{Y0U_F0UND_M3!}`
 
 ## Key Concepts
 
@@ -132,4 +132,4 @@ The challenge name "Burger King Crackers" is a clever wordplay:
 
 This challenge demonstrated a real-world cryptographic vulnerability in legacy ZIP encryption. By leveraging the known beginning of an SVG file, we performed a known-plaintext attack to recover the encryption keys and decrypt the archive without ever finding the original password.
 
-**Final Flag:** `CACI{YOU_FOUND_M3!}`
+**Final Flag:** `CACI{Y0U_F0UND_M3!}`
