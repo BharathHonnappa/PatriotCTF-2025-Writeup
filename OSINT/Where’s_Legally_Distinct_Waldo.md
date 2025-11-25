@@ -5,6 +5,7 @@ PatriotCTF 2025 featured a fun series of OSINT challenges titled "Where’s Lega
 ---
 
 ## Challenge 1 — Where’s Legally Distinct Waldo One
+
 ![Question](src/1st_question.png)
 
 Challenge image:
@@ -35,6 +36,7 @@ Distinctive Tiled Walking Path
 After searching the campus on Google Maps, I found a perfect match for the path's unique design and the surrounding layout. The only tall building positioned correctly relative to both the path and a nearby brown building was Horizon Hall.
 
 ![Question](src/ariel_shot.png)
+
 Flag: `pctf{Horizon_Hall}`
 
 ---
@@ -132,6 +134,7 @@ I had noticed this spot earlier but dismissed it too quickly. Upon my second rev
 ![Area_Spoofing](src/krug_hall.jpeg)
 
 FINALLY!!!
+
 ![Area_Spoofing](src/Found_The_Place.png)
 
 It was a perfect match. The location was indeed Krug Hall.
