@@ -5,11 +5,11 @@ PatriotCTF 2025 featured a fun series of OSINT challenges titled "Where’s Lega
 ---
 
 ## Challenge 1 — Where’s Legally Distinct Waldo One
-![Question](pics/1st_question.png)
+![Question](src/1st_question.png)
 
 Challenge image:
 
-![Question_1](pics/20251120_164321_noexif.jpg)
+![Question_1](src/20251120_164321_noexif.jpg)
 
 How I solved it
 
@@ -21,20 +21,20 @@ While Yandex didn't identify the exact building, it consistently suggested Georg
 
 With a location in mind, I began a manual scan of the campus using Google Maps and Google Earth.
 
-![Tower_and_Building](pics/tower.png)
+![Tower_and_Building](src/tower.png)
 
 GMU Aerial View / Street View Network Tower
 
 The key details in the challenge image were a distinctive tiled walking path and a prominent tower.
 
-![Top_view](pics/pictures_uploaded_online.png)
+![Top_view](src/pictures_uploaded_online.png)
 
 
 Distinctive Tiled Walking Path
 
 After searching the campus on Google Maps, I found a perfect match for the path's unique design and the surrounding layout. The only tall building positioned correctly relative to both the path and a nearby brown building was Horizon Hall.
 
-![Question](pics/ariel_shot.png)
+![Question](src/ariel_shot.png)
 Flag: `pctf{Horizon_Hall}`
 
 ---
@@ -43,7 +43,7 @@ Flag: `pctf{Horizon_Hall}`
 
 Challenge image:
 
-![Question_2](pics/20251120_165441_noexif.jpg)
+![Question_2](src/20251120_165441_noexif.jpg)
 
 How I solved it
 
@@ -51,17 +51,17 @@ What immediately stood out to me were the distinctive roof panels.
 
 I began searching from an aerial view, looking for buildings with similar roof panels.
 
-![Roof_Spoofing](pics/thompson_hall_topview.png)
+![Roof_Spoofing](src/thompson_hall_topview.png)
 
 I pulled the location up on Google Earth to confirm:
 
 A "No Parking" sign on the road and the name of the crossroad confirmed it was the correct place.
 
-![Area_Spoofing](pics/noticed_parking_lot.png)
+![Area_Spoofing](src/noticed_parking_lot.png)
 
 I then took a virtual walk via Street View and found this sign on the side of the building:
 
-![Found the Building](pics/Thompson_hall.png)
+![Found the Building](src/Thompson_hall.png)
 
 Flag: `pctf{Thompson_Hall}`
 
@@ -71,7 +71,7 @@ Flag: `pctf{Thompson_Hall}`
 
 Challenge image:
 
-![Question_3](pics/20251120_164321_noexif.jpg)
+![Question_3](src/20251120_164321_noexif.jpg)
 
 How I solved it
 
@@ -79,17 +79,17 @@ Since the first two challenges were on GMU’s campus, I continued searching the
 
 This was one of the easiest challenges.
 
-![Area_Spoofing](pics/20251120_171834_noexif.jpg)
+![Area_Spoofing](src/20251120_171834_noexif.jpg)
 
 The challenge image also showed a large parking lot:
 From the correct angle on Google Maps, everything matched—the parking layout, trees sidewalks.
 
-![Area_Spoofing](pics/ponds.png)
+![Area_Spoofing](src/ponds.png)
 
 This view pointed directly to the building in the background.
 I went to Street View to confirm the building's exact name and found the sign:
 
-![Area_Spoofing](pics/building_board.png)
+![Area_Spoofing](src/building_board.png)
 
 It was the "Center for the Arts / Concert Hall."
 
@@ -106,7 +106,7 @@ Flag: `pctf{Center_for_the_Arts_Concert_Hall}`
 
 Challenge image:
 
-![Question_4](pics/20251120_165002_noexif.jpg)
+![Question_4](src/20251120_165002_noexif.jpg)
 
 How I solved it
 This one took a long time and was definitely the hardest of the four.
@@ -129,10 +129,10 @@ https://maps.app.goo.gl/DvCthseVXvcsDLrXA
 
 I had noticed this spot earlier but dismissed it too quickly. Upon my second review, I found the exact match:
 
-![Area_Spoofing](pics/krug_hall.jpeg)
+![Area_Spoofing](src/krug_hall.jpeg)
 
 FINALLY!!!
-![Area_Spoofing](pics/Found_The_Place.png)
+![Area_Spoofing](src/Found_The_Place.png)
 
 It was a perfect match. The location was indeed Krug Hall.
 Flag: `pctf{Krug_Hall}`
